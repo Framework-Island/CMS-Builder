@@ -105,4 +105,4 @@ jobs:
               -v $APP_DIR/workspace:/tmp/workspace \
               -v /var/run/docker.sock:/var/run/docker.sock \
               tradejoy-backend:latest
-          fi 
+          fi
