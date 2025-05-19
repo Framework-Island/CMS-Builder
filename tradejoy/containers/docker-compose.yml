@@ -13,8 +13,7 @@ services:
       - AWS_REGION=${AWS_REGION:-us-east-1}
       - SANDBOX_RUNTIME_CONTAINER_IMAGE=${SANDBOX_RUNTIME_CONTAINER_IMAGE:-ghcr.io/all-hands-ai/runtime:0.38-nikolaik}
       - SANDBOX_LOCAL_RUNTIME_URL=http://172.31.30.60
-      - WORKSPACE_MOUNT_PATH=/tmp/workspace
-      - WORKSPACE_BASE=/tmp/workspace
+      - RUNTIME_MOUNT=${WORKSPACE_BASE:-./workspace}:/workspace:rw
       - PYTHONUNBUFFERED=1
       - SERVE_FRONTEND=false
       - RUN_AS_OPENHANDS=true
@@ -24,6 +23,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.openhands-state:/.openhands-state
-      - ${WORKSPACE_BASE:-./workspace}:/tmp/workspace
+      - ${WORKSPACE_BASE:-./workspace}:/workspace
     stdin_open: true
     tty: true 
