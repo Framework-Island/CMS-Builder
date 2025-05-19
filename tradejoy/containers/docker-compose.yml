@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   tradejoy-backend:
     build:
@@ -14,6 +12,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION:-us-east-1}
       - SANDBOX_RUNTIME_CONTAINER_IMAGE=${SANDBOX_RUNTIME_CONTAINER_IMAGE:-ghcr.io/all-hands-ai/runtime:0.38-nikolaik}
+      - SANDBOX_LOCAL_RUNTIME_URL=${SANDBOX_LOCAL_RUNTIME_URL:-http://172.17.0.1}
       - WORKSPACE_MOUNT_PATH=/tmp/workspace
       - WORKSPACE_BASE=/tmp/workspace
       - PYTHONUNBUFFERED=1
