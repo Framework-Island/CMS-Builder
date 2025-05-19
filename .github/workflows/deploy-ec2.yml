@@ -42,7 +42,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION=${{ secrets.AWS_REGION }}
           BEDROCK_MODEL=${{ secrets.BEDROCK_MODEL }}
-          WORKSPACE_BASE=$APP_DIR/workspace
+          RUNTIME_MOUNT=$APP_DIR/workspace:/workspace:rw
           SANDBOX_LOCAL_RUNTIME_URL=http://$PRIVATE_IP
           EOF
           
@@ -93,7 +93,7 @@ jobs:
               --restart unless-stopped \
               --network host \
               --env-file $APP_DIR/.env \
-              -v $APP_DIR/workspace:/tmp/workspace \
+              -v $APP_DIR/workspace:/workspace \
               -v /var/run/docker.sock:/var/run/docker.sock \
               tradejoy-backend:latest
           else
@@ -106,7 +106,7 @@ jobs:
               --restart unless-stopped \
               --network host \
               --env-file $APP_DIR/.env \
-              -v $APP_DIR/workspace:/tmp/workspace \
+              -v $APP_DIR/workspace:/workspace \
               -v /var/run/docker.sock:/var/run/docker.sock \
               tradejoy-backend:latest
           fi
