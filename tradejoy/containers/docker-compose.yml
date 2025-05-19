@@ -12,7 +12,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION:-us-east-1}
       - SANDBOX_RUNTIME_CONTAINER_IMAGE=${SANDBOX_RUNTIME_CONTAINER_IMAGE:-ghcr.io/all-hands-ai/runtime:0.38-nikolaik}
-      - SANDBOX_LOCAL_RUNTIME_URL=http://host.docker.internal
+      - SANDBOX_LOCAL_RUNTIME_URL=http://172.31.30.60
       - WORKSPACE_MOUNT_PATH=/tmp/workspace
       - WORKSPACE_BASE=/tmp/workspace
       - PYTHONUNBUFFERED=1
@@ -20,8 +20,7 @@ services:
       - RUN_AS_OPENHANDS=true
     ports:
       - "3000:3000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    network_mode: "host"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ~/.openhands-state:/.openhands-state
