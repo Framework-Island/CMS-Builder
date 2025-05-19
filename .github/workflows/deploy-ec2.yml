@@ -33,6 +33,9 @@ jobs:
           # Create project directory
           mkdir -p $APP_DIR
           
+          # Get private IP address
+          PRIVATE_IP=$(hostname -I | awk '{print $1}')
+          
           # Create/update env file
           cat > $APP_DIR/.env << EOF
           AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -40,6 +43,7 @@ jobs:
           AWS_REGION=${{ secrets.AWS_REGION }}
           BEDROCK_MODEL=${{ secrets.BEDROCK_MODEL }}
           WORKSPACE_BASE=$APP_DIR/workspace
+          SANDBOX_LOCAL_RUNTIME_URL=http://$PRIVATE_IP
           EOF
           
           # Install Docker if not installed
@@ -87,7 +91,7 @@ jobs:
             docker run -d \
               --name tradejoy-backend \
               --restart unless-stopped \
-              -p 3000:3000 \
+              --network host \
               --env-file $APP_DIR/.env \
               -v $APP_DIR/workspace:/tmp/workspace \
               -v /var/run/docker.sock:/var/run/docker.sock \
@@ -100,7 +104,7 @@ jobs:
             sudo docker run -d \
               --name tradejoy-backend \
               --restart unless-stopped \
-              -p 3000:3000 \
+              --network host \
               --env-file $APP_DIR/.env \
               -v $APP_DIR/workspace:/tmp/workspace \
               -v /var/run/docker.sock:/var/run/docker.sock \
